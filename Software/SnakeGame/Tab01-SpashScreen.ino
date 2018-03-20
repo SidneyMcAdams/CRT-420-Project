@@ -67,21 +67,22 @@ const unsigned char SnakeGame [] PROGMEM = {
 };
 
 void splash() {
+  if (activeScreen == 0) {
   display1.setCursor(0, 0);
   display1.setTextColor(WHITE, BLACK);
   display1.setTextWrap(true);
   display1.drawBitmap(0, 0, SnakeGame, 128, 64, WHITE); //SHOWS THE IMAGE
   display1.display();
-
+  } else if (activeScreen == 1) {
   display2.setCursor(0, 0);
   display2.setTextColor(WHITE, BLACK);
   display2.setTextWrap(true);
   display2.drawBitmap(0, 0, SnakeGame, 128, 64, WHITE); //SHOWS THE IMAGE
   display2.display();
-
+  }
   delay(2000);
-  display1.clearDisplay();
-  display2.clearDisplay();
+  //display1.clearDisplay();
+  //display2.clearDisplay();
   mode = 1;
 }
 

@@ -4,31 +4,44 @@
 */
 
 //DISPLAY
-#include <SFE_MicroOLED.h>
 #include <SPI.h>
 #include <Wire.h>
 #include <Adafruit_GFX.h>
 #include <Adafruit_SSD1306.h>
 #define OLED_RESET 4
+
 Adafruit_SSD1306 display1(OLED_RESET);
 Adafruit_SSD1306 display2(OLED_RESET);
 
 //MPU-6050
 const int MPU_addr = 0x68; // I2C address of the MPU-6050
 int16_t AcX, AcY, AcZ, Tmp, GyX, GyY, GyZ;
-int snakeX = 64;
-int snakeY = 32;
+int snakeX[10] = { 64, -1, -1, -1, -1, -1, -1, -1, -1, -1};
+int snakeY[10] = { 32, -1, -1, -1, -1, -1, -1, -1, -1, -1};
+int snakeLength = 1;
 int snakeDir = 0;
 
 // FOR CHANGING SCREEN CASES
 int mode = 0;
-//int modes = 3;
 int lastMode = -1;
 int curSelection = 0;
 int button1 = 1;
 int buttonDelay = 100;
 boolean debug = true;
-boolean activeScreen = 1;
+
+boolean activeScreen = 0;
+
+//SCORE
+long score = 0;
+long lives = 3;
+
+//FOOD
+int minX = 10;
+int minY = 10;
+int maxX = 128;
+int maxY = 64;
+int foodX = random(10, 122);
+int foodY = random(10, 59);
 
 // CHECK BUTTON STATE
 int checkButton() {
@@ -49,10 +62,9 @@ void setup() {
 
 void initDisplay()   {
   Serial.begin(9600);
-  display1.begin(SSD1306_SWITCHCAPVCC, 0x3D);
+  display1.begin(SSD1306_SWITCHCAPVCC, 0x3C);
+  display2.begin(SSD1306_SWITCHCAPVCC, 0x3D);
   display1.clearDisplay(); // clears screen
-
-  display2.begin(SSD1306_SWITCHCAPVCC, 0x3C);
   display2.clearDisplay();
 }
 
@@ -71,6 +83,15 @@ void initBUTTON() {
 
 void loop() {
   loadMode();
+
+  if (activeScreen == 0) {
+    display1.display();
+    display1.clearDisplay();
+  }
+  else if (activeScreen == 1) {
+    display2.display();
+    display2.clearDisplay();
+  }
 }
 
 void loadMode() {
@@ -85,8 +106,8 @@ void loadMode() {
   // Clear Screen if Mode Changes
   if (lastMode != mode) {
     lastMode = mode;
-    display1.clearDisplay();
-    display2.clearDisplay();
+    //display1.clearDisplay();
+    //display2.clearDisplay();
   }
 }
 

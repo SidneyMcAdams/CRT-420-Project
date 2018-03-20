@@ -1,5 +1,6 @@
 void help() {
   //Line 1
+  if (activeScreen == 0) {
   display1.setCursor(12, 5);
   display1.setTextSize(1);
   display1.println("ROTATE FORWARD OR");
@@ -26,8 +27,8 @@ void help() {
   display1.setTextSize(1);
   display1.println("ROTATE TO MOVE SNAKE");
 
-  display1.display();
-
+  //display1.display();
+  }else if (activeScreen == 1){
   //Line 1
   display2.setCursor(12, 5);
   display2.setTextSize(1);
@@ -55,8 +56,8 @@ void help() {
   display2.setTextSize(1);
   display2.println("ROTATE TO MOVE SNAKE");
 
-  display2.display();
-
+  //display2.display();
+  }
  int b = checkButton();
   if ( b == 1) {
     mode = 0;

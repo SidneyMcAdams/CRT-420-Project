@@ -67,6 +67,7 @@ const unsigned char Hackberry [] PROGMEM = {
 };
 
 void about() {
+  if (activeScreen == 0) {
   display1.setCursor(0, 2);
   display1.setTextColor(WHITE, BLACK);
   display1.setTextWrap(true);
@@ -100,8 +101,8 @@ void about() {
   display1.setCursor(122, 57);
   display1.println("S");
 
-  display1.display();
-
+  //display1.display();
+  }else if (activeScreen == 1){
   display2.setCursor(0, 2);
   display2.setTextColor(WHITE, BLACK);
   display2.setTextWrap(true);
@@ -135,8 +136,8 @@ void about() {
   display2.setCursor(122, 57);
   display2.println("S");
 
-  display2.display();
-
+  //display2.display();
+  }
 int b = checkButton();
   if ( b == 1) {
     mode = 0;
