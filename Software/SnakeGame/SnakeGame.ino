@@ -42,6 +42,7 @@ int maxX = 128;
 int maxY = 64;
 int foodX = random(10, 122);
 int foodY = random(10, 59);
+int foodScreen = random(0, 2);
 
 // CHECK BUTTON STATE
 int checkButton() {
@@ -82,6 +83,7 @@ void initBUTTON() {
 
 
 void loop() {
+  checkAccel();
   loadMode();
 
   if (activeScreen == 0) {
@@ -109,6 +111,21 @@ void loadMode() {
     //display1.clearDisplay();
     //display2.clearDisplay();
   }
+}
+
+void checkAccel(){
+  Wire.beginTransmission(MPU_addr);
+  Wire.write(0x3B);  // starting with register 0x3B (ACCEL_XOUT_H)
+  Wire.endTransmission(false);
+  Wire.requestFrom(MPU_addr, 14, true); // request a total of 14 registers
+  AcX = Wire.read() << 8 | Wire.read(); // 0x3B (ACCEL_XOUT_H) & 0x3C (ACCEL_XOUT_L)
+  AcY = Wire.read() << 8 | Wire.read(); // 0x3D (ACCEL_YOUT_H) & 0x3E (ACCEL_YOUT_L)
+  AcZ = Wire.read() << 8 | Wire.read(); // 0x3F (ACCEL_ZOUT_H) & 0x40 (ACCEL_ZOUT_L)
+  
+  if (AcZ > 0){activeScreen = 1;}
+  else{activeScreen = 0;}
+
+  Serial.print(AcX); Serial.print(", "); Serial.print(AcY); Serial.print(", "); Serial.print(AcZ); Serial.print(" || Screen:"); Serial.println(activeScreen); 
 }
 
 

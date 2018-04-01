@@ -73,7 +73,7 @@ void splash() {
   display1.setTextWrap(true);
   display1.drawBitmap(0, 0, SnakeGame, 128, 64, WHITE); //SHOWS THE IMAGE
   display1.display();
-  } else if (activeScreen == 1) {
+  } else {
   display2.setCursor(0, 0);
   display2.setTextColor(WHITE, BLACK);
   display2.setTextWrap(true);

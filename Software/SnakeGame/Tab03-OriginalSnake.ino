@@ -34,21 +34,12 @@ void drawSnake2() {
 void spawnFood() {
   foodX = random(10, 122);
   foodY = random(10, 59);
+  foodScreen = random(0, 2);
 }
 
 
 //MAKES THE SNAKE MOVE WITH MOTION OF ACCELEROMETER
 void moveSnake() {
-  Wire.beginTransmission(MPU_addr);
-  Wire.write(0x3B);  // starting with register 0x3B (ACCEL_XOUT_H)
-  Wire.endTransmission(false);
-  Wire.requestFrom(MPU_addr, 14, true); // request a total of 14 registers
-  AcX = Wire.read() << 8 | Wire.read(); // 0x3B (ACCEL_XOUT_H) & 0x3C (ACCEL_XOUT_L)
-  AcY = Wire.read() << 8 | Wire.read(); // 0x3D (ACCEL_YOUT_H) & 0x3E (ACCEL_YOUT_L)
-  AcZ = Wire.read() << 8 | Wire.read(); // 0x3F (ACCEL_ZOUT_H) & 0x40 (ACCEL_ZOUT_L)
-
-  // Snake Dir - 0 Up 1 Down 2 Left 3 Right
-  Serial.println("AcZ = "); Serial.println(AcZ);
   if (AcX < -10000) {
     snakeDir = 1;
   }
@@ -89,8 +80,8 @@ void moveSnake() {
 }
 
 void collectFood() {
-  display1.drawPixel(foodX, foodY, WHITE);
-  display2.drawPixel(foodX, foodY, WHITE);
+  if(foodScreen == 0 && activeScreen == 0){display1.drawPixel(foodX, foodY, WHITE);}
+  if(foodScreen == 1 && activeScreen == 1){display2.drawPixel(foodX, foodY, WHITE);}
 
   if (snakeX[0] == foodX && snakeY[0] == foodY) {
     score += 10;
@@ -118,8 +109,10 @@ void collectFood() {
 void originalSnake() {
   moveSnake();
   collectFood();
-  drawSnake1();
-  drawSnake2();
+
+  if(activeScreen == 1){drawSnake1();}
+  else{drawSnake2();}
+  
   originalSnakeScore();
 
   int b = checkButton();

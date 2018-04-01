@@ -1,13 +1,5 @@
 void mainMenu() {
-  Wire.beginTransmission(MPU_addr);
-  Wire.write(0x3B);  // starting with register 0x3B (ACCEL_XOUT_H)
-  Wire.endTransmission(false);
-  Wire.requestFrom(MPU_addr, 14, true); // request a total of 14 registers
-  AcX = Wire.read() << 8 | Wire.read(); // 0x3B (ACCEL_XOUT_H) & 0x3C (ACCEL_XOUT_L)
-  AcY = Wire.read() << 8 | Wire.read(); // 0x3D (ACCEL_YOUT_H) & 0x3E (ACCEL_YOUT_L)
-  //AcZ = Wire.read() << 8 | Wire.read(); // 0x3F (ACCEL_ZOUT_H) & 0x40 (ACCEL_ZOUT_L)
 
-  Serial.println(AcX);
   //Button Input & Accel. Input
   int b = checkButton();
   if ( b == 1) {
@@ -24,6 +16,7 @@ void mainMenu() {
   }
 
   if (activeScreen == 0) {
+
     // MENU
     display1.setCursor(0, 0);
     display1.setTextColor(WHITE, BLACK);
@@ -82,10 +75,9 @@ void mainMenu() {
       display1.setTextColor(WHITE);
     }
     display1.println("+ ABOUT");
-  } else if (AcZ >= 0) {
-        activeScreen = 1;
-    //display1.display();
-  
+    
+  } else {
+
     /**********************************************************************************************
     ***********************************************************************************************/
 

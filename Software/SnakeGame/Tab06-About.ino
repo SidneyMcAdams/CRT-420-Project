@@ -102,7 +102,7 @@ void about() {
   display1.println("S");
 
   //display1.display();
-  }else if (activeScreen == 1){
+  }else{
   display2.setCursor(0, 2);
   display2.setTextColor(WHITE, BLACK);
   display2.setTextWrap(true);

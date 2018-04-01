@@ -28,7 +28,7 @@ void help() {
   display1.println("ROTATE TO MOVE SNAKE");
 
   //display1.display();
-  }else if (activeScreen == 1){
+  }else{
   //Line 1
   display2.setCursor(12, 5);
   display2.setTextSize(1);
