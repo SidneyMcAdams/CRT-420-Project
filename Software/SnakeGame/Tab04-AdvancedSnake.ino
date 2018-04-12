@@ -30,18 +30,26 @@ void advanceSnakeScore() {
   }
 }
 
-void walls() {
+
+
+void drawNotFood() {
+  if (millis() - nftimer > 1000) {
+    display1.drawPixel(random(128), random(64), WHITE);
+    display2.drawPixel(random(128), random(64), WHITE);
+    nftimer = millis();
+  }
+
+  /*
   if (activeScreen == 0) {
-    //WALLS1
-    for (int i = 30; i < 50; i++) {
-      display1.drawPixel(10, i, WHITE);
+    for ( int i = 0; i < 20; i++) {
+      display1.drawPixel(nfX[i], nfY[i], WHITE);
     }
   } else {
-    //WALLS2
-    for (int i = 20; i < 40; i++) {
-      display2.drawPixel(20, i, WHITE);
+    for ( int i = 0; i < 20; i++) {
+      display2.drawPixel(nfX[i], nfY[i], WHITE);
     }
   }
+  */
 }
 
 void advanceSnake() {
@@ -53,7 +61,7 @@ void advanceSnake() {
     drawSnake2();
   }
   advanceSnakeScore();
-  walls();
+  drawNotFood();
 
   int b = checkButton();
   if ( b == 1) {
@@ -62,9 +70,6 @@ void advanceSnake() {
     snakeX[0] = 64;
     snakeY[0] = 32;
   }
-
-  //display1.display();
-  //display2.display();
 }
 
 

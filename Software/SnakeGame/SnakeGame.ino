@@ -25,7 +25,7 @@ int snakeDir = 0;
 int mode = 0;
 int lastMode = -1;
 int curSelection = 0;
-int button1 = 1;
+int button1 = 2;
 int buttonDelay = 100;
 boolean debug = true;
 
@@ -44,6 +44,9 @@ int foodX = random(10, 122);
 int foodY = random(10, 59);
 int foodScreen = random(0, 2);
 
+// NOT FOOD for ADVANCED SNAKE
+long nftimer = 0;
+
 // CHECK BUTTON STATE
 int checkButton() {
   if (digitalRead(button1) == HIGH) {
@@ -56,6 +59,7 @@ int checkButton() {
 }
 
 void setup() {
+  randomSeed(analogRead(0));
   initDisplay();
   initAccel();
   initBUTTON();
@@ -88,11 +92,11 @@ void loop() {
 
   if (activeScreen == 0) {
     display1.display();
-    display1.clearDisplay();
+    if(mode != 3){display1.clearDisplay();}
   }
   else if (activeScreen == 1) {
     display2.display();
-    display2.clearDisplay();
+    if(mode != 3){display2.clearDisplay();}
   }
 }
 
@@ -108,12 +112,12 @@ void loadMode() {
   // Clear Screen if Mode Changes
   if (lastMode != mode) {
     lastMode = mode;
-    //display1.clearDisplay();
-    //display2.clearDisplay();
+    if(mode == 3){display1.clearDisplay();}
+    if(mode == 3){display2.clearDisplay();}
   }
 }
 
-void checkAccel(){
+void checkAccel() {
   Wire.beginTransmission(MPU_addr);
   Wire.write(0x3B);  // starting with register 0x3B (ACCEL_XOUT_H)
   Wire.endTransmission(false);
@@ -121,11 +125,15 @@ void checkAccel(){
   AcX = Wire.read() << 8 | Wire.read(); // 0x3B (ACCEL_XOUT_H) & 0x3C (ACCEL_XOUT_L)
   AcY = Wire.read() << 8 | Wire.read(); // 0x3D (ACCEL_YOUT_H) & 0x3E (ACCEL_YOUT_L)
   AcZ = Wire.read() << 8 | Wire.read(); // 0x3F (ACCEL_ZOUT_H) & 0x40 (ACCEL_ZOUT_L)
-  
-  if (AcZ > 0){activeScreen = 1;}
-  else{activeScreen = 0;}
 
-  Serial.print(AcX); Serial.print(", "); Serial.print(AcY); Serial.print(", "); Serial.print(AcZ); Serial.print(" || Screen:"); Serial.println(activeScreen); 
+  if (AcZ > 0) {
+    activeScreen = 1;
+  }
+  else {
+    activeScreen = 0;
+  }
+
+  Serial.print(AcX); Serial.print(", "); Serial.print(AcY); Serial.print(", "); Serial.print(AcZ); Serial.print(" || Screen:"); Serial.println(activeScreen);
 }
 
 

@@ -80,8 +80,14 @@ void moveSnake() {
 }
 
 void collectFood() {
-  if(foodScreen == 0 && activeScreen == 0){display1.drawPixel(foodX, foodY, WHITE);}
-  if(foodScreen == 1 && activeScreen == 1){display2.drawPixel(foodX, foodY, WHITE);}
+  if(foodScreen == 0 && activeScreen == 0){
+      display1.drawPixel(foodX, foodY, WHITE);
+      if(mode == 3){display1.fillRect(foodX, foodY, 2, 2, WHITE);}
+  }
+  if(foodScreen == 1 && activeScreen == 1){
+    display2.drawPixel(foodX, foodY, WHITE);
+    if(mode == 3){display2.fillRect(foodX, foodY, 2, 2, WHITE);}
+  }
 
   if (snakeX[0] == foodX && snakeY[0] == foodY) {
     score += 10;
@@ -97,14 +103,6 @@ void collectFood() {
     spawnFood();
   }
 }
-
-/*
-  void livescreen(){
-  if(display1.display()){
-    activeScreen = true;
-  }
-  }
-*/
 
 void originalSnake() {
   moveSnake();
@@ -123,9 +121,6 @@ void originalSnake() {
     snakeY[0] = 32;
     snakeLength = 1;
   }
-
-  //display1.display();
-  //display2.display();
 }
 
 
