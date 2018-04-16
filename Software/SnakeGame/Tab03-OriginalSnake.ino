@@ -1,4 +1,4 @@
-//SCORE
+// DISPLAYS THE SCORE
 void originalSnakeScore() {
   if (activeScreen == 0) {
     display1.setCursor(0, 0);
@@ -15,7 +15,7 @@ void originalSnakeScore() {
   }
 }
 
-//DRAW SNAKE1 ON SCREEN1
+// DRAWS SNAKE1 ON SCREEN1
 void drawSnake1() {
   for (int i = 0; i < snakeLength; i++) {
     display1.drawPixel(snakeX[i], snakeY[i], WHITE);
@@ -23,7 +23,7 @@ void drawSnake1() {
   display1.drawPixel(snakeX[snakeLength], snakeY[snakeLength], BLACK); //erase where the snake has been
 }
 
-//DRAW SNAKE2 ON SCREEN2
+// DRAWS SNAKE2 ON SCREEN2
 void drawSnake2() {
   for (int i = 0; i < snakeLength; i++) {
     display2.drawPixel(snakeX[i], snakeY[i], WHITE);
@@ -31,6 +31,7 @@ void drawSnake2() {
   display2.drawPixel(snakeX[snakeLength], snakeY[snakeLength], BLACK);
 }
 
+// SETS THE LOCATION OF THE FOOD AT "RANDOM" COORDINATES
 void spawnFood() {
   foodX = random(10, 122);
   foodY = random(10, 59);
@@ -38,7 +39,7 @@ void spawnFood() {
 }
 
 
-//MAKES THE SNAKE MOVE WITH MOTION OF ACCELEROMETER
+// MAKES THE SNAKE MOVE WITH MOTION OF ACCELEROMETER
 void moveSnake() {
   if (AcX < -10000) {
     snakeDir = 1;
@@ -53,7 +54,7 @@ void moveSnake() {
     snakeDir = 3;
   }
 
-  //Serial.println(snakeDir);
+  // Serial.println(snakeDir);
   int newX = snakeX[0];
   int newY = snakeY[0];
 
@@ -79,6 +80,7 @@ void moveSnake() {
   snakeY[0] = newY;
 }
 
+// DRAWS FOOD AND COLLECTS FOOD
 void collectFood() {
   if(foodScreen == 0 && activeScreen == 0){
       display1.drawPixel(foodX, foodY, WHITE);
@@ -104,6 +106,7 @@ void collectFood() {
   }
 }
 
+// BRINGS ALL THE FUNCTIONS TO SETUP TO WORK AND DISPLAY ON THE SCREENS
 void originalSnake() {
   moveSnake();
   collectFood();

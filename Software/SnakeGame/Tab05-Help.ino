@@ -1,3 +1,4 @@
+// DISPLAYS HELPFUL TEXT ON THE SCREEN
 void help() {
   //Line 1
   if (activeScreen == 0) {

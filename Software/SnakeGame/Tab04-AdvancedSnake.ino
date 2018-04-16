@@ -1,3 +1,4 @@
+// DISPLAYS SNAKES SCORE AND LIVES ON THE SCREEN
 void advanceSnakeScore() {
   if (activeScreen == 0) {
     //SCORE1
@@ -30,28 +31,16 @@ void advanceSnakeScore() {
   }
 }
 
-
-
+// DRAWS PIXEL SNOW ON SCREEN
 void drawNotFood() {
   if (millis() - nftimer > 1000) {
     display1.drawPixel(random(128), random(64), WHITE);
     display2.drawPixel(random(128), random(64), WHITE);
     nftimer = millis();
   }
-
-  /*
-  if (activeScreen == 0) {
-    for ( int i = 0; i < 20; i++) {
-      display1.drawPixel(nfX[i], nfY[i], WHITE);
-    }
-  } else {
-    for ( int i = 0; i < 20; i++) {
-      display2.drawPixel(nfX[i], nfY[i], WHITE);
-    }
-  }
-  */
 }
 
+// BRINGS ALL THE FUNCTIONS TO SETUP TO WORK AND DISPLAY ON THE SCREENS
 void advanceSnake() {
   collectFood();
   moveSnake();

@@ -1,3 +1,4 @@
+// APPLIES THE CASE MODES IN TEXT IN A ORGANIZED FASHION ON THE SCREEN  
 void mainMenu() {
 
   //Button Input & Accel. Input

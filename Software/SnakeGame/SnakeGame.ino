@@ -1,9 +1,14 @@
 /*
   Sidney McAdams
-  GyroSNAKE
+  CRT 420 Final Project Code
+  Mentor: Zane Cochran
+  GyroSNAKE - A new and creative way to play the snake game. 
+  Say goodbye to directional buttons and hello to 6-DOF IMU.
+  With this code rotational movements of the device changes 
+  the directional movement of the snake.  
 */
 
-//DISPLAY
+// OLED .96' DISPLAY SETUP
 #include <SPI.h>
 #include <Wire.h>
 #include <Adafruit_GFX.h>
@@ -13,7 +18,7 @@
 Adafruit_SSD1306 display1(OLED_RESET);
 Adafruit_SSD1306 display2(OLED_RESET);
 
-//MPU-6050
+// MPU-6050 SETUP CODE
 const int MPU_addr = 0x68; // I2C address of the MPU-6050
 int16_t AcX, AcY, AcZ, Tmp, GyX, GyY, GyZ;
 int snakeX[10] = { 64, -1, -1, -1, -1, -1, -1, -1, -1, -1};
@@ -31,11 +36,11 @@ boolean debug = true;
 
 boolean activeScreen = 0;
 
-//SCORE
+// SCORE
 long score = 0;
 long lives = 3;
 
-//FOOD
+// FOOD
 int minX = 10;
 int minY = 10;
 int maxX = 128;
@@ -44,7 +49,7 @@ int foodX = random(10, 122);
 int foodY = random(10, 59);
 int foodScreen = random(0, 2);
 
-// NOT FOOD for ADVANCED SNAKE
+// NOT FOOD FOR ADVANCED SNAKE
 long nftimer = 0;
 
 // CHECK BUTTON STATE
@@ -58,6 +63,7 @@ int checkButton() {
   return 0;
 }
 
+// WITHOUT THIS THE SCREEN WOULD BE BLANK
 void setup() {
   randomSeed(analogRead(0));
   initDisplay();
@@ -65,6 +71,7 @@ void setup() {
   initBUTTON();
 }
 
+// TURNS ON SCREENS AND CLEARS THE DISPLAYS
 void initDisplay()   {
   Serial.begin(9600);
   display1.begin(SSD1306_SWITCHCAPVCC, 0x3C);
@@ -73,6 +80,7 @@ void initDisplay()   {
   display2.clearDisplay();
 }
 
+// TURNS ON 6-DOF IMU 
 void initAccel() {
   Wire.begin();
   Wire.beginTransmission(MPU_addr);
@@ -81,6 +89,7 @@ void initAccel() {
   Wire.endTransmission(true);
 }
 
+// ALLOWS BUTTON TO FUNCTION AND SETS THE PROPER PIN TO IT
 void initBUTTON() {
   pinMode(button1, INPUT);
 }
@@ -100,6 +109,7 @@ void loop() {
   }
 }
 
+// CREATES DIFFERENT CASE MODES FOR THE USER TO SELECT THROUGH ON THE MENU SCREEN
 void loadMode() {
   switch (mode) {
     case 0: splash(); break;
@@ -117,6 +127,7 @@ void loadMode() {
   }
 }
 
+// IDENTIFIES WHAT ORIENTATION THE 6-DOF IMU IS AT AND TURNS ON THE SCREEN DEPENDENT ON IF ITS ORIENTATION IS UP OR DOWN
 void checkAccel() {
   Wire.beginTransmission(MPU_addr);
   Wire.write(0x3B);  // starting with register 0x3B (ACCEL_XOUT_H)
